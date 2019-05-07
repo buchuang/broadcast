@@ -1,0 +1,11 @@
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\myinterceptor\MyPrincipalHandshakeHandler.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\myinterceptor\AuthWebSocketHandlerDecoratorFactory.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\entity\ResponseMessage.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\myinterceptor\AuthHandshakeInterceptor.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\entity\MyPrincipal.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\redis\RedisClient.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\redis\RedisConfig.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\controller\BroadcastCtl.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\config\WebSocketMBConfigurer.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\ChatroomApplication.java
+E:\data\broadcast\chatroom\src\main\java\com\vr\chatroom\config\ExchangeChannel.java

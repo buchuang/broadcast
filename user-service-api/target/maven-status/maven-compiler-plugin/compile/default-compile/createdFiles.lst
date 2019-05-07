@@ -1,0 +1,4 @@
+com\vr\userserviceapi\entity\UserInfoDto.class
+com\vr\userserviceapi\webClientInterface\UserInfoClientService.class
+com\vr\userserviceapi\webClientInterface\UserInfoFallback.class
+com\vr\userserviceapi\UserServiceApiApplication.class

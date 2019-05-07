@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: dashboard-server
+  cloud:
+    config:
+      profile: dev
+      label: master
+      discovery:
+        service-id: config-server
+        enabled: true
+
+server:
+  port: 9090
+
+turbine:
+  app-config: gateway-zuul
+  combine-host-port: true
+  cluster-name-expression: new String("default")
+

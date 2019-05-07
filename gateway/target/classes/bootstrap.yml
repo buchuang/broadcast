@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: gateway-zuul
+  cloud:
+    config:
+      profile: dev
+      label: master
+      discovery:
+        service-id: config-server
+        enabled: true
+server:
+  port: 443
+  ssl:
+    key-store: classpath:94450.pfx
+    key-store-password: fFxhqG5u
+    key-store-type: PKCS12
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+zuul:
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
+  prefix: /vr
+  routes:
+    a:
+      path: /user/**
+      serviceId: USER-SERVER
+    b:
+      path: /plate/**
+      serviceId: PLATE-SERVER
+    c:
+      path: /room/**
+      service-id:  room-server
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+

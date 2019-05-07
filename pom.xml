@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.vr</groupId>
+    <artifactId>broadcast</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>broadcast</name>
+    <description>VR直播</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+        <user-service-api-version>0.0.1-SNAPSHOT</user-service-api-version>
+        <common-utils-version>0.0.1-SNAPSHOT</common-utils-version>
+        <vr-filter-client-version>0.0.1-SNAPSHOT</vr-filter-client-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.vr</groupId>
+                <artifactId>user-service-api</artifactId>
+                <version>${user-service-api-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vr</groupId>
+                <artifactId>common-utils</artifactId>
+                <version>${common-utils-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vr</groupId>
+                <artifactId>vr-filter-client</artifactId>
+                <version>${vr-filter-client-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>
