@@ -14,17 +14,15 @@
     <description>直播板块</description>
 
     <dependencies>
-        <!--ftp文件上传-->
         <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.3</version>
+            <groupId>com.vr</groupId>
+            <artifactId>ftp-server</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--自定义连接池-->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-            <version>2.4.2</version>
+            <groupId>com.vr</groupId>
+            <artifactId>exception-config</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

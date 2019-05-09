@@ -1,8 +1,14 @@
 com\vr\userserver\redis\RedisClient.class
+com\vr\userserver\config\WebConfig.class
+com\vr\userserver\entity\LoginForm.class
 com\vr\userserver\service\impl\UserInfoServiceImpl.class
 com\vr\userserver\dao\UserInfoDao.class
 com\vr\userserver\controller\UserInfoController.class
 com\vr\userserver\entity\UserInfo.class
 com\vr\userserver\redis\RedisConfig.class
+com\vr\userserver\service\UserInfoService.class
 com\vr\userserver\UserServerApplication.class
+com\vr\userserver\controller\UserInfoServerController.class
 com\vr\userserver\exception\ExceptionCatch.class
+com\vr\userserver\entity\UserDetailInfo.class
+com\vr\userserver\filter\LoginInterceptor.class

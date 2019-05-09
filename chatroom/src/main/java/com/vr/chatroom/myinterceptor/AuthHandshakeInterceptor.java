@@ -1,12 +1,12 @@
 package com.vr.chatroom.myinterceptor;
 
-import com.vr.chatroom.redis.RedisClient;
 import com.vr.commonutils.utils.Consts;
+import com.vr.commonutils.utils.JsonUtil;
+import com.vr.redisserver.redis.RedisPoolUtil;
 import com.vr.userserviceapi.entity.UserInfoDto;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -16,15 +16,12 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import javax.servlet.http.HttpSession;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class AuthHandshakeInterceptor implements HandshakeInterceptor {
     private static final Logger log = LoggerFactory.getLogger(AuthHandshakeInterceptor.class);
-    @Autowired
-    private RedisClient redisClient;
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("连接之前");
@@ -40,14 +37,17 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
             return false;
         }
         String realnum=push_nums.get(0);
-        UserInfoDto userInfoDto = (UserInfoDto) redisClient.get(realnum);
+
+        String info = RedisPoolUtil.get(realnum);
+        UserInfoDto userInfoDto= (UserInfoDto) JsonUtil.fromJson(info,UserInfoDto.class);
 
         if(userInfoDto==null){
             if(tokens==null || StringUtils.isBlank(tokens.get(0))){
                 return false;
             }
             String realtoken=tokens.get(0);
-            UserInfoDto realUser= (UserInfoDto) redisClient.get(realtoken);
+            String loginuser = RedisPoolUtil.get(realtoken);
+            UserInfoDto realUser= (UserInfoDto) JsonUtil.fromJson(loginuser,UserInfoDto.class);
             if(realUser==null){
                 return false;
             }

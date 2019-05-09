@@ -9,8 +9,7 @@ eureka:
       defaultZone: http://eureka2:8762/eureka
     register-with-eureka: true
     fetch-registry: true
-  server:
-    enable-self-preservation: false
+
 
 
 

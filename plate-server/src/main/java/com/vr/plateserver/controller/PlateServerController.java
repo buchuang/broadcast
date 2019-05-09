@@ -1,6 +1,5 @@
 package com.vr.plateserver.controller;
 
-import com.vr.plateserver.redis.RedisClient;
 import com.vr.plateserver.service.PlateService;
 import com.vr.vrfilterclient.selfAnnotation.AccessLimit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlateServerController {
     @Autowired
     private PlateService plateService;
-    @Autowired
-    private RedisClient redisClient;
+
 
     @PostMapping("/updatestatus/{pushNum}")
     @AccessLimit(needLogin = false)

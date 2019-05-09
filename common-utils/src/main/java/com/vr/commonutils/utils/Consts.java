@@ -9,7 +9,7 @@ public class Consts {
     public static final String FANOUT = "fanout.";
 
     private Consts(){}
-    public static final long LOGIN_EXPIRE=60*60*12;
+    public static final int LOGIN_EXPIRE=60*60*12;
     public static final String ERROR="err";
     public static final String OPENID="openid";
     public static final String SESSION_KEY="session_key";

@@ -2,31 +2,21 @@ package com.vr.plateserver.controller;
 
 import com.vr.commonutils.utils.Consts;
 import com.vr.commonutils.utils.R;
-import com.vr.commonutils.utils.UUIDUtils;
+import com.vr.ftpserver.ftp.FtpUtil;
 import com.vr.plateserver.entity.DynamicsForm;
-import com.vr.plateserver.entity.RoomDetail;
-import com.vr.plateserver.entity.RoomDetailForm;
-import com.vr.plateserver.ftp.FtpUtil;
-import com.vr.plateserver.redis.RedisClient;
 import com.vr.plateserver.service.PlateService;
-import com.vr.userserviceapi.entity.UserInfoDto;
+import com.vr.redisserver.redis.RedisPoolUtil;
 import com.vr.vrfilterclient.selfAnnotation.AccessLimit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.UUID;
 
 @RestController
 public class PlateController {
 
     @Autowired
     private PlateService plateService;
-    @Autowired
-    private RedisClient redisClient;
+
     @Autowired
     private FtpUtil ftpUtil;
 
@@ -73,7 +63,7 @@ public class PlateController {
 
     @PostMapping("/stopbroad")
     public R stopBroad(@RequestBody DynamicsForm dynamicsForm) {
-        String count = (String) redisClient.get(dynamicsForm.getRoomNum() + Consts.MAX_ONLINE_COUNT);
+        String count = RedisPoolUtil.get(dynamicsForm.getRoomNum() + Consts.MAX_ONLINE_COUNT);
         if (count == null) {
             count = "0";
         }
@@ -98,7 +88,7 @@ public class PlateController {
 
     @GetMapping("/onlinecount/{pushNum}")
     public R getOnlineCount(@PathVariable String pushNum) {
-        String count = (String) redisClient.get(pushNum + Consts.ONLINE);
+        String count = RedisPoolUtil.get(pushNum + Consts.ONLINE);
         if (count == null) {
             return R.error("主播不在线");
         }

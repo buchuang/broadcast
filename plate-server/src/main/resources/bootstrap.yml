@@ -20,17 +20,7 @@ spring:
     locator:
       discovery:
         enabled: true
-  redis:
-    password: 94450
-    port: 6379
-    host: 47.94.87.74
-    timeout: 6s
-    jedis:
-      pool:
-        max-active: 200
-        max-idle: 100
-        max-wait: 1s
-        min-idle: 50
+
   rabbitmq:
     password: guest
     username: guest
@@ -115,7 +105,4 @@ feign:
   hystrix:
     enabled: true
 
-user:
-  service:
-    name: localhost:8081
 

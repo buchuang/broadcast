@@ -1,20 +1,11 @@
 package com.vr.chatroom.myinterceptor;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.ConnectionFactory;
 import com.vr.chatroom.config.ExchangeChannel;
-import com.vr.chatroom.redis.RedisClient;
 import com.vr.commonutils.utils.Consts;
-import com.vr.plateserverapi.serviceapi.PlateServerApi;
+import com.vr.redisserver.redis.RedisPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
@@ -28,12 +19,6 @@ import java.security.Principal;
 public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDecoratorFactory {
     private static final Logger log = LoggerFactory.getLogger(AuthWebSocketHandlerDecoratorFactory.class);
     private static long line=0;
-
-    @Autowired
-    private RedisClient redisClient;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public WebSocketHandler decorate(WebSocketHandler handler) {
@@ -51,11 +36,11 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                         System.out.println("主播上线");
                         Channel channel = ExchangeChannel.getChannel();
                         channel.exchangeDeclare(Consts.FANOUT+pushNum.substring(0, pushNum.indexOf(Consts.ANCHOR)),"fanout");
-                        stringRedisTemplate.opsForValue().set(pushNum.substring(0,pushNum.indexOf(Consts.ANCHOR))+Consts.ONLINE,"1");
+                        RedisPoolUtil.set(pushNum.substring(0,pushNum.indexOf(Consts.ANCHOR))+Consts.ONLINE,"1");
                         count=1;
                     }else if(pushNum!=null && pushNum.endsWith(Consts.VISITOR)){//游客上线
-                        count = stringRedisTemplate.opsForValue().increment(pushNum.substring(0, pushNum.indexOf(Consts.VISITOR)) + Consts.ONLINE, 1);
-                        redisClient.set(pushNum.substring(0,pushNum.indexOf(Consts.VISITOR))+Consts.MAX_ONLINE_COUNT,String.valueOf(count));
+                        count=RedisPoolUtil.incr(pushNum.substring(0, pushNum.indexOf(Consts.VISITOR)) + Consts.ONLINE, 1);
+                        RedisPoolUtil.set(pushNum.substring(0,pushNum.indexOf(Consts.VISITOR))+Consts.MAX_ONLINE_COUNT,String.valueOf(count));
                     }else {
                         //return;
                     }
@@ -75,11 +60,11 @@ public class AuthWebSocketHandlerDecoratorFactory implements WebSocketHandlerDec
                     //主播下线
                     if(pushNum!=null && pushNum.endsWith(Consts.ANCHOR)){
                         System.out.println("主播下线");
-                        redisClient.del(pushNum.substring(0,pushNum.indexOf(Consts.ANCHOR)));
-                        stringRedisTemplate.delete(pushNum.substring(0,pushNum.indexOf(Consts.ANCHOR))+Consts.ONLINE);
+                        RedisPoolUtil.del(pushNum.substring(0,pushNum.indexOf(Consts.ANCHOR)));
+                        RedisPoolUtil.del(pushNum.substring(0,pushNum.indexOf(Consts.ANCHOR))+Consts.ONLINE);
 
                     }else if(pushNum!=null && pushNum.endsWith(Consts.VISITOR)){
-                        count=stringRedisTemplate.opsForValue().decrement(pushNum.substring(0,pushNum.indexOf(Consts.VISITOR))+Consts.ONLINE,1);
+                        count=RedisPoolUtil.decr(pushNum.substring(0,pushNum.indexOf(Consts.VISITOR))+Consts.ONLINE,1);
                     }else {
                         //return;
                     }

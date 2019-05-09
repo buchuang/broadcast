@@ -1,0 +1,67 @@
+{
+  "groups": [
+    {
+      "name": "ftp",
+      "type": "com.vr.ftpserver.ftp.FtpConfig",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ftp.encoding",
+      "type": "java.lang.String",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.host",
+      "type": "java.lang.String",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.max-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.max-total",
+      "type": "java.lang.Integer",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.max-wait-millis",
+      "type": "java.lang.Integer",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.min-idel",
+      "type": "java.lang.Integer",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.pass-word",
+      "type": "java.lang.String",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.root",
+      "type": "java.lang.String",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.user-name",
+      "type": "java.lang.String",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    },
+    {
+      "name": "ftp.work-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.vr.ftpserver.ftp.FtpConfig"
+    }
+  ],
+  "hints": []
+}

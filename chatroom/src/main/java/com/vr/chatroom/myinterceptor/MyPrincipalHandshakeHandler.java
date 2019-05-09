@@ -1,13 +1,12 @@
 package com.vr.chatroom.myinterceptor;
 
 import com.vr.chatroom.entity.MyPrincipal;
-import com.vr.chatroom.redis.RedisClient;
 import com.vr.commonutils.utils.Consts;
+import com.vr.commonutils.utils.JsonUtil;
+import com.vr.redisserver.redis.RedisPoolUtil;
 import com.vr.userserviceapi.entity.UserInfoDto;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +22,6 @@ import java.util.Map;
 public class MyPrincipalHandshakeHandler extends DefaultHandshakeHandler {
     private static final Logger log = LoggerFactory.getLogger(MyPrincipalHandshakeHandler.class);
 
-    @Autowired
-    private RedisClient redisClient;
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         System.out.println("设置连接信息");
@@ -40,15 +36,13 @@ public class MyPrincipalHandshakeHandler extends DefaultHandshakeHandler {
             return null;
         }
 
-        if(redisClient.hasKey(realnum)){
+        if(RedisPoolUtil.exist(realnum)){
             return new MyPrincipal(realnum+Consts.VISITOR);
         }else{
-            UserInfoDto userInfoDto = (UserInfoDto) redisClient.get(token);
+            String s = RedisPoolUtil.get(token);
+            UserInfoDto userInfoDto = (UserInfoDto)JsonUtil.fromJson(s,UserInfoDto.class);
             if(userInfoDto!=null&&userInfoDto.getPushNum().equals(realnum)){
-                boolean b = redisClient.set(realnum, userInfoDto);
-                if(!b){
-                    return null;
-                }
+                RedisPoolUtil.set(realnum, JsonUtil.toJson(userInfoDto));
                 return new MyPrincipal(realnum+Consts.ANCHOR);
             }
             return null;

@@ -1,0 +1,3 @@
+com\vr\gateway\filter\fallbackException.class
+com\vr\gateway\filter\fallbackException$1.class
+com\vr\gateway\GatewayApplication.class

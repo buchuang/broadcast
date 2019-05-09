@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.vr")
 @EnableDiscoveryClient
 @MapperScan(basePackages = "com.vr.userserver.dao")
 public class UserServerApplication {

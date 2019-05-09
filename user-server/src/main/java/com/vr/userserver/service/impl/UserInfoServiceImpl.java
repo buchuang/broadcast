@@ -3,23 +3,18 @@ package com.vr.userserver.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.vr.commonutils.exception.ThisException;
-import com.vr.commonutils.utils.Consts;
-import com.vr.commonutils.utils.ErrorEnum;
-import com.vr.commonutils.utils.HttpUtil;
-import com.vr.commonutils.utils.R;
+import com.vr.commonutils.utils.*;
+import com.vr.redisserver.redis.RedisPoolUtil;
 import com.vr.userserver.dao.UserInfoDao;
 import com.vr.userserver.entity.LoginForm;
 import com.vr.userserver.entity.UserDetailInfo;
 import com.vr.userserver.entity.UserInfo;
-import com.vr.userserver.redis.RedisClient;
 import com.vr.userserver.service.UserInfoService;
 import com.vr.userserviceapi.entity.UserInfoDto;
 import org.apache.commons.lang.StringUtils;
-import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +25,6 @@ import java.util.UUID;
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private UserInfoDao userInfoDao;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    RedisClient redisClient;
 
     @Value("${wx.appid}")
     private String appid;
@@ -74,13 +64,13 @@ public class UserInfoServiceImpl implements UserInfoService {
             user.setNickName(loginForm.getNickName());
             user.setSex(loginForm.getSex());
             user.setFacus(0l);
-            Boolean b = stringRedisTemplate.hasKey(Consts.REDIS_PUSH_NUM);
+            Boolean b = RedisPoolUtil.exist(Consts.REDIS_PUSH_NUM);
             if(!b){
                 String maxPushNum=userInfoDao.findMaxPushNum();
                 System.out.println(maxPushNum);
-                stringRedisTemplate.opsForValue().set(Consts.REDIS_PUSH_NUM,maxPushNum);
+                RedisPoolUtil.set(Consts.REDIS_PUSH_NUM,maxPushNum);
             }
-            long push_num = stringRedisTemplate.opsForValue().increment(Consts.REDIS_PUSH_NUM,1);
+            Long push_num = RedisPoolUtil.incr(Consts.REDIS_PUSH_NUM, 1);
             user.setPushNum(String.valueOf(push_num));
             int b1 = userInfoDao.save(user);
             user.setEmail("");
@@ -91,10 +81,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         String uuid = UUID.randomUUID().toString().replace("-","");
 
-        boolean set = redisClient.set(uuid, toDto(user), Consts.LOGIN_EXPIRE);
-        if (!set) {
-            ThisException.exception(ErrorEnum.REDIS_ERROR);
-        }
+        RedisPoolUtil.setEx(uuid, JsonUtil.toJson(toDto(user)), Consts.LOGIN_EXPIRE);
+
         return R.ok().put("token", uuid).put("roomNum",user.getPushNum());
     }
 

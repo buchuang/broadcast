@@ -10,18 +10,6 @@ spring:
       discovery:
         service-id: config-server
         enabled: true
-  redis:
-    password: ENC(IqwENsLpTX0/39kXz3qV1w==)
-    port: 6379
-    host: 47.94.87.74
-    timeout: 6s
-    jedis:
-      pool:
-        max-active: 200
-        max-idle: 100
-        max-wait: 1s
-        min-idle: 50
-
   sleuth:
     sampler:
       probability: 0.1
@@ -99,13 +87,10 @@ eureka:
   instance:
     prefer-ip-address: true
 
-jasypt:
-  encryptor:
-    password: 944501692
+#jasypt:
+#  encryptor:
+#    password: 944501692
 
 wx:
   appid: wx51dd7dd32f1fc0d1
   secret: bcf183850562c1507006673f154f6b46
-user:
-  service:
-    name: localhost:8081
